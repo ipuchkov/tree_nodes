@@ -9,9 +9,7 @@ RSpec.describe CachedNode, type: :model do
     end
 
     context 'appears in collection' do
-      let(:nodes) { CachedNode.all }
-
-      it { expect(nodes.map(&:uuid)).to match_array([@node.uuid]) }
+      it { expect(CachedNode.include?(@node)).to be true }
     end
 
     context 'raise attributes error' do
@@ -23,7 +21,7 @@ RSpec.describe CachedNode, type: :model do
     end
 
     context 'found record' do
-      it { expect(CachedNode.find(@node.uuid).uuid).to eq(@node.uuid) }
+      it { expect(CachedNode.find(@node.uuid)).to eq(@node) }
     end
 
     context 'raise record not found' do
@@ -37,7 +35,7 @@ RSpec.describe CachedNode, type: :model do
     context 'find by field' do
       let(:node2) { CachedNode.find_by(:id, 2) }
 
-      it { expect(node2.id).to eq(@node.id)}
+      it { expect(node2).to eq(@node)}
     end
 
     context 'can destroy all records' do

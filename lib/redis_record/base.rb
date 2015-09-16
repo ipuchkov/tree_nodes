@@ -36,6 +36,14 @@ class RedisRecord::Base
     self.attributes[self.class.primary_key]
   end
 
+  def ==(comparison_object)
+    super ||
+      comparison_object.instance_of?(self.class) &&
+      !obj_primary_key.nil? &&
+      comparison_object.obj_primary_key == obj_primary_key
+  end
+  alias :eql? :==
+
   private
 
   def save_data
@@ -95,6 +103,10 @@ class RedisRecord::Base
       instantiate_data
 
       @records
+    end
+
+    def include?(obj)
+      records_list.select {|r| r.split(/\:/).last == obj.obj_primary_key}.any?
     end
 
     def destroy_all
