@@ -1,6 +1,17 @@
-<div class="node_tree">
-  <span><%= @root.value %></span>
-  <ul class="children">
-    <%= render @root.children %>
-  </ul>
+<div class="container">
+  <div class="nodes">
+    <div class="tree_view">
+      <span><%= @root.value %></span>
+      <ul class="children">
+        <%= render @root.children %>
+      </ul>
+    </div>
+  </div>
+
+  <%= link_to ">>>", '#', :class => 'button export' %>
+
+  <div class="cached_nodes">
+    <div class="tree_view">
+    </div>
+  </div>
 </div>
