@@ -3,4 +3,8 @@ class Node < ActiveRecord::Base
 
   scope :deleted,     -> { where.not(:deleted_at => nil) }
   scope :not_deleted, -> { where(:deleted_at => nil) }
+
+  def for_cache
+    self.as_json(only: [:id, :value, :ancestry, :deleted_at])
+  end
 end

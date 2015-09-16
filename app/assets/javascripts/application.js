@@ -12,4 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+
+//= require select_node
+//= require export_node
+//= require ./main

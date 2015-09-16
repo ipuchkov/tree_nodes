@@ -1,7 +1,10 @@
+<div class="flash">
+</div>
+
 <div class="container">
   <div class="nodes">
     <div class="tree_view">
-      <span><%= @root.value %></span>
+      <span id=<%= @root.id %>><%= @root.value %></span>
       <ul class="children">
         <%= render @root.children %>
       </ul>
