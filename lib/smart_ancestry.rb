@@ -71,7 +71,7 @@ module SmartAncestry
 
   module ClassMethods
     def has_smart_ancestry
-      self.attributes << :ancestry
+      self.attributes << :ancestry << :ancestry_depth
     end
   end
 end
