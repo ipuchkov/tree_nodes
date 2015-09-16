@@ -9,6 +9,7 @@ group :default do
   gem 'pg'
   gem 'rails',         '4.2.0'
   gem 'redis'
+  gem 'responders'
   gem 'sass-rails',    '~> 5.0.1'
   gem 'uglifier',      '>= 1.3.0'
 end
