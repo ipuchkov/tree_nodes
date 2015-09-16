@@ -1,0 +1,11 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+
+development:
+  <<: *default
+  database: tree_nodes_development
+
+test:
+  <<: *default
+  database: tree_nodes_test
