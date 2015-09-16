@@ -34,6 +34,12 @@ RSpec.describe CachedNode, type: :model do
       end
     end
 
+    context 'find by field' do
+      let(:node2) { CachedNode.find_by(:id, 2) }
+
+      it { expect(node2.id).to eq(@node.id)}
+    end
+
     context 'can destroy all records' do
       let(:action) { CachedNode.destroy_all }
 

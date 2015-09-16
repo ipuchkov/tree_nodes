@@ -83,6 +83,13 @@ class RedisRecord::Base
       end
     end
 
+    def find_by(field, value)
+      unless self.attributes.include?(field)
+        raise RedisRecord::Errors::WrongAttribute.new("Attribute #{field} does not exist")
+      end
+      self.all.select { |r| r.send(field) == value.to_s }.first
+    end
+
     def all
       @records = []
       instantiate_data
