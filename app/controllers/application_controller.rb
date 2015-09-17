@@ -5,5 +5,6 @@ class ApplicationController < ActionController::Base
 
   def index
     @root = Node.not_deleted.find_by(:ancestry => nil)
+    @cached_nodes = TreeForRender.new.build_tree
   end
 end

@@ -5,7 +5,7 @@
   <div class="nodes">
     <div class="tree_view">
       <span id=<%= @root.id %>><%= @root.value %></span>
-      <ul class="children">
+      <ul class="ancestry">
         <%= render @root.children %>
       </ul>
     </div>
@@ -15,6 +15,7 @@
 
   <div class="cached_nodes">
     <div class="tree_view">
+      <%= render partial: 'cached_nodes/list', locals: { cached_nodes: @cached_nodes} %>
     </div>
   </div>
 </div>

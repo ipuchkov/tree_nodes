@@ -1,2 +1,6 @@
-$('.flash').html("<%= flash[:alert] %>")
-$('.flash').slideDown(350).delay(2000).slideUp(350)
+<% if flash[:alert] %>
+  $('.flash').html("<%= flash[:alert] %>")
+  $('.flash').slideDown(350).delay(2000).slideUp(350)
+<% else %>
+  $('.cached_nodes .tree_view').html("<%= j(render partial: 'cached_nodes/list', locals: { cached_nodes: @cached_nodes }) %>")
+<% end %>

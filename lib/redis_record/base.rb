@@ -48,7 +48,14 @@ class RedisRecord::Base
 
   def save_data
     check_primary_key
+    set_created_at
     set_data
+  end
+
+  def set_created_at
+    unless self.created_at.present?
+      self.created_at = Time.zone.now.to_s
+    end
   end
 
   def set_data
