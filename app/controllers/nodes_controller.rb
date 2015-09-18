@@ -5,14 +5,16 @@ class NodesController < ApplicationController
     id = params[:id]
 
     if CachedNode.find_by(:id, id).present?
-      flash[:alert] = "Запись уже помещена в КЭШ"
+      flash[:notice] = "Node is already added"
+      render nothing: true
     else
       @node = Node.find(params[:id])
       @cached_node = CachedNode.new(@node.for_cache)
       if @cached_node.save
         @cached_nodes = TreeForRender.new.build_tree
       else
-        flash[:alert] = "Запись не добавлена"
+        flash[:notice] = "Node is not saved"
+        render nothing: true
       end
     end
   end

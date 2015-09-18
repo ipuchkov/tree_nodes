@@ -1,0 +1,5 @@
+<%= form_tag cached_node_path(@cached_node.uuid), :class => 'ajaxed_form' do %>
+  <%= text_field_tag :value, @cached_node.value %>
+  <%= submit_tag 'Save', :class => 'apply' %>
+  <%= link_to "Cancel", '#', :class => :cancel %>
+<% end %>

@@ -3,5 +3,7 @@ Rails.application.routes.draw do
     post 'add_to_cache', :on => :member
   end
 
+  resources :cached_nodes, :except => [:show, :index]
+
   root to: 'application#index'
 end
