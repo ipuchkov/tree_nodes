@@ -9,6 +9,7 @@ module SmartAncestry
       if record.is_a?(self.class)
         value = ancestry_value(record)
         self.ancestry = value
+        self.ancestry_depth = value.split(/\//).count.to_s
       else
         raise WrongParent.new("Can`t set ancestry for #{self} because parent class is not #{self.class} but #{record.class}")
       end

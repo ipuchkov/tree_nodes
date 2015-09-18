@@ -1,3 +1,1 @@
-<div class="edit_node popup_container">
-  <%= render partial: 'form' %>
-</div>
+<%= render partial: 'form', locals: { path: cached_node_path(@cached_node.uuid) } %>

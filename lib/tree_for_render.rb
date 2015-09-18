@@ -18,7 +18,7 @@ class TreeForRender
   private
 
   def id_for(node)
-    node.id || node.uuid
+    node.id.presence || node.uuid
   end
 
   def parent_in_tree?(id)

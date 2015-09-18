@@ -1,5 +1,8 @@
-<%= form_tag cached_node_path(@cached_node.uuid), :class => 'ajaxed_form' do %>
-  <%= text_field_tag :value, @cached_node.value %>
-  <%= submit_tag 'Save', :class => 'apply' %>
-  <%= link_to "Cancel", '#', :class => :cancel %>
-<% end %>
+<div class="popup_container">
+  <%= form_tag path, :class => 'ajaxed_form' do %>
+    <%= text_field_tag :value, @cached_node.value %>
+    <%= hidden_field_tag :parent_id, params[:parent_id] %>
+    <%= submit_tag 'Save', :class => 'apply' %>
+    <%= link_to "Cancel", '#', :class => :cancel %>
+  <% end %>
+</div>

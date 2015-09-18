@@ -1,18 +1,24 @@
 @init_edit_node = ->
-  $('.edit').click (evt) ->
-    id = $(evt.target).attr('data-id')
+  $('.operate').click (evt) ->
+    target = $(evt.target)
+    if target.hasClass('new')
+      id  = target.attr('data-parent-id')
+      url = "cached_nodes/new?parent_id=#{id}"
+    if target.hasClass('edit')
+      id  = $(evt.t).attr('data-id')
+      url = "cached_nodes/#{id}/edit"
     if id
       $.ajax
-        url: "cached_nodes/#{id}/edit"
+        url: url
         success: (data) ->
           $(document.body).append(data)
           init_apply_changes()
 
-@init_apply_changes = ->
+init_apply_changes =(type, url) ->
   $('.ajaxed_form').submit (evt) ->
     form_data =  $(this).serialize()
     $.ajax
-      type: 'patch'
+      type: $(this).attr('method')
       url:  $(this).attr('action')
       data: $(this).serialize()
       success: (data) ->
