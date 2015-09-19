@@ -1,4 +1,4 @@
-@init_edit_node = ->
+@init_operate_node = ->
   $('.operate').click (evt) ->
     target = $(evt.target)
     if target.hasClass('new')
