@@ -1,5 +1,5 @@
 <li class="child">
-  <span id=<%= node.id %>><%= node.value %></span>
+  <span id=<%= node.id %> class=<%= node.deleted? ? 'deleted' : '' %>><%= node.value %></span>
   <ul class="ancestry">
     <%= render node.children %>
   </ul>

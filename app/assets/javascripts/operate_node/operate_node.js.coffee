@@ -5,14 +5,25 @@
       id  = target.attr('data-parent-id')
       url = "cached_nodes/new?parent_id=#{id}"
     if target.hasClass('edit')
-      id  = $(evt.t).attr('data-id')
+      id  = target.attr('data-id')
       url = "cached_nodes/#{id}/edit"
     if id
       $.ajax
         url: url
+        type: type if type
         success: (data) ->
           $(document.body).append(data)
           init_apply_changes()
+    false
+
+@init_delete_node = ->
+  $('.delete').click (evt) ->
+    id = $(evt.target).attr('data-id')
+    $.ajax
+      url:  "cached_nodes/#{id}"
+      type: 'delete'
+      success: (data) ->
+        $('.cached_nodes .tree_view').html(data)
 
 init_apply_changes =(type, url) ->
   $('.ajaxed_form').submit (evt) ->
@@ -28,3 +39,4 @@ init_apply_changes =(type, url) ->
 
   $('.cancel').click (evt) ->
     $('.popup_container').remove()
+    false

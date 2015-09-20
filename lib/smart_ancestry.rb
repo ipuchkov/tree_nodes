@@ -17,7 +17,7 @@ module SmartAncestry
   end
 
   def parent_id
-    ancestry.split(/\//).last
+    ancestry_ids.last
   end
 
   def children
@@ -28,8 +28,18 @@ module SmartAncestry
     children.map(&:uuid)
   end
 
+  def descendants
+    self.class.all.select do |r|
+      r.ancestry_ids.include?(self.uuid) || r.ancestry_ids.include?(self.id)
+    end
+  end
+
   def root_id
-    ancestry.split(/\//).first
+    ancestry_ids.first
+  end
+
+  def ancestry_ids
+    ancestry.split(/\//)
   end
 
   private

@@ -15,6 +15,6 @@
 
 //= require select_node
 //= require export_node
-//= require opereate_node
+//= require operate_node
 //= require flash
 //= require ./main

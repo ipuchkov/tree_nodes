@@ -10,11 +10,9 @@ class CachedNodesController < ApplicationController
     @cached_node = CachedNode.find(params[:id])
     @cached_node.value = params[:value]
     if @cached_node.save
-      @cached_nodes = TreeForRender.new.build_tree
-      render partial: 'cached_nodes/list', locals: { cached_nodes: @cached_nodes }
+      render_list
     else
-      flash[:notice] = 'Node not saved'
-      render nothing: true
+      make_flash('Node not saved')
     end
   end
 
@@ -31,11 +29,32 @@ class CachedNodesController < ApplicationController
     @cached_node.parent = parent
 
     if @cached_node.save
-      @cached_nodes = TreeForRender.new.build_tree
-      render partial: 'cached_nodes/list', locals: { cached_nodes: @cached_nodes }
+      render_list
     else
-      flash[:notice] = 'Node not created'
-      render nothing: true
+      make_flash('Node not created')
     end
+  end
+
+  def destroy
+    @cached_node = CachedNode.find(params[:id])
+    @cached_node.deleted_at = Time.zone.now.to_s
+    if @cached_node.save
+      @cached_node.mark_descendants_deleted
+      render_list
+    else
+      make_flash('Can`t delete node')
+    end
+  end
+
+  private
+
+  def make_flash(message)
+    flash[:notice] = message
+    render nothing: true
+  end
+
+  def render_list
+    @cached_nodes = TreeForRender.new.build_tree
+    render partial: 'cached_nodes/list', locals: { cached_nodes: @cached_nodes }
   end
 end
