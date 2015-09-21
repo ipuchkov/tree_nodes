@@ -20,6 +20,10 @@ module SmartAncestry
     ancestry_ids.last
   end
 
+  def parent
+    self.class.find(parent_id) || self.class.find_by(:id, parent_id)
+  end
+
   def children
     self.class.all.select {|r| r.parent_id == self.id || r.parent_id == self.obj_primary_key }
   end
