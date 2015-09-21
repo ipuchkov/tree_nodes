@@ -15,4 +15,12 @@ class CachedNode < RedisRecord::Base
       r.save
     end
   end
+
+  def self.with_id
+    all.select { |r| r.id.present? }.sort { |a,b| a.ancestry_depth <=> b.ancestry_depth}
+  end
+
+  def self.without_id
+    all.select { |r| r.id.blank? }.sort { |a,b| a.ancestry_depth <=> b.ancestry_depth}
+  end
 end
