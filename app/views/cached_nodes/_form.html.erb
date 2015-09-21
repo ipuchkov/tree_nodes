@@ -1,5 +1,5 @@
 <div class="popup_container">
-  <%= form_tag path, :class => 'ajaxed_form' do %>
+  <%= form_tag path, method: method, class: 'ajaxed_form' do %>
     <%= text_field_tag :value, @cached_node.value %>
     <%= hidden_field_tag :parent_id, params[:parent_id] %>
     <%= submit_tag 'Save', :class => 'apply' %>
