@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :cached_nodes, :except => [:show, :index]
 
   get 'reset' => 'application#reset'
+  get 'apply' => 'application#apply'
 
   root to: 'application#index'
 end
