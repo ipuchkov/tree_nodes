@@ -42,14 +42,19 @@ class TreeForRender
 
   def sorted_nodes
     @sorted_nodes ||= nodes.sort do |a,b|
-      a.ancestry_depth <=> b.ancestry_depth && a.created_at <=> b.created_at
+      comp = a.ancestry_depth <=> b.ancestry_depth
+      comp = a.id.presence.to_i <=> b.id.presence.to_i if comp.zero?
+      comp = -1*(a.created_at <=> b.created_at) if comp.zero?
+      comp
     end
   end
 
-  # FIXME fix sorting
   def reverse_sorted_nodes
     @reverse_sorted_nodes ||= nodes.sort do |a,b|
-      b.ancestry_depth <=> a.ancestry_depth
+      comp = -1*(a.ancestry_depth <=> b.ancestry_depth)
+      comp = a.id.to_i <=> b.id.to_i if comp.zero? && a.id.presence && b.id.presence
+      comp = a.created_at <=> b.created_at if comp.zero?
+      comp
     end
   end
 end

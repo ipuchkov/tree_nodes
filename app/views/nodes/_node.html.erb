@@ -1,6 +1,6 @@
 <li class="child">
   <span id=<%= node.id %> class=<%= node.deleted? ? 'deleted' : '' %>><%= node.value %></span>
   <ul class="ancestry">
-    <%= render node.children %>
+    <%= render node.children.order(:id) %>
   </ul>
 </li>

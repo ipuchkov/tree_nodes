@@ -17,10 +17,17 @@ class CachedNode < RedisRecord::Base
   end
 
   def self.with_id
-    all.select { |r| r.id.present? }.sort { |a,b| a.ancestry_depth <=> b.ancestry_depth}
+    all.select { |r| r.id.present? }.sort do |a,b|
+      a.ancestry_depth <=> b.ancestry_depth
+    end
   end
 
   def self.without_id
-    all.select { |r| r.id.blank? }.sort { |a,b| a.ancestry_depth <=> b.ancestry_depth}
+    all.select { |r| r.id.blank? }.sort do |a,b|
+      comp = a.ancestry_depth <=> b.ancestry_depth
+      comp = a.id.presence.to_i <=> b.id.presence.to_i if comp.zero?
+      comp = a.created_at <=> b.created_at if comp.zero?
+      comp
+    end
   end
 end

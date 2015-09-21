@@ -2,8 +2,9 @@
   <% cached_nodes.each do |id, node_hash| %>
     <li>
       <% node = node_hash[:obj] %>
+      <% children = node_hash[:children] %>
       <span id=<%= node.uuid %> class=<%= node.deleted? ? 'deleted' : '' %>><%= "#{node.value} - #{node.id}" %></span>
-      <%= render partial: 'cached_nodes/list', locals: { cached_nodes: node_hash[:children] } %>
+      <%= render partial: 'cached_nodes/list', locals: { cached_nodes: children } if children.any? %>
     </li>
   <% end %>
 </ul>
