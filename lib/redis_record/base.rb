@@ -94,7 +94,7 @@ class RedisRecord::Base
       if (data = get_record(id)).present?
         new(data.merge(primary_key => id))
       else
-        raise RedisRecord::Errors::RecordNotFound.new("Couldn't find #{self.name} with '#{primary_key}'=#{id}")
+        nil
       end
     end
 

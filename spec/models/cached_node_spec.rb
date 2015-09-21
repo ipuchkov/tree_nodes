@@ -24,11 +24,9 @@ RSpec.describe CachedNode, type: :model do
       it { expect(CachedNode.find(@node.uuid)).to eq(@node) }
     end
 
-    context 'raise record not found' do
+    context 'record not found' do
       it do
-        expect do
-          CachedNode.find(1111)
-        end.to raise_exception(RedisRecord::Errors::RecordNotFound)
+        expect(CachedNode.find(1111)).to eq(nil)
       end
     end
 
