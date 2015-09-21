@@ -19,7 +19,10 @@
 
       container.find('span').removeClass('selected')
       target.addClass('selected')
-      unless target.hasClass('deleted')
+      if target.hasClass('deleted')
+        $(links).each (ind, elm) ->
+          $(elm).removeAttr('data-parent-id').removeAttr('data-id')
+      else
         $(links).each (ind, elm) ->
           if parent && $(elm).hasClass('new')
             $(elm).attr('data-parent-id', id)

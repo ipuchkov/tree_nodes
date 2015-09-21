@@ -13,6 +13,8 @@ module SmartAncestry
       else
         raise WrongParent.new("Can`t set ancestry for #{self} because parent class is not #{self.class} but #{record.class}")
       end
+    elsif record.nil?
+      self.ancestry_depth = '0'
     end
   end
 
@@ -85,6 +87,22 @@ module SmartAncestry
   end
 
   module ClassMethods
+    def can_add_root?
+      self.deleted_global_roots.any? && global_root.nil?
+    end
+
+    def deleted_global_roots
+      self.all.select do |r|
+        r.ancestry_depth == '0' && r.deleted_at.present?
+      end
+    end
+
+    def global_root
+      self.all.select do |r|
+        r.ancestry_depth == '0' && r.deleted_at.blank?
+      end.first
+    end
+
     def has_smart_ancestry
       self.attributes << :ancestry << :ancestry_depth
     end

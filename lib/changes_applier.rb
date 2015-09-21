@@ -43,7 +43,7 @@ module ChangesApplier
         node.parent.id
       else
         node.parent_id
-      end
+      end if node.parent_id.present?
     end
 
     def node_deleted_at(node)

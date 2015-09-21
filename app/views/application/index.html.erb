@@ -1,9 +1,8 @@
 <div class="container">
   <div class="nodes">
     <div class="tree_view">
-      <span id=<%= @root.id %>><%= @root.value %></span>
       <ul class="ancestry">
-        <%= render @root.children %>
+        <%= render @roots %>
       </ul>
     </div>
   </div>

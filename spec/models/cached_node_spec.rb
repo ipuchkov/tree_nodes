@@ -78,5 +78,12 @@ RSpec.describe CachedNode, type: :model do
 
       it { expect(grand_child.root_id).to eq(root.id) }
     end
+
+    context 'can add root' do
+      let!(:do)           { CachedNode.destroy_all }
+      let!(:deleted_root) { CachedNode.new(:value => 'parent', :id => 1, deleted_at: Time.zone.now, ancestry_depth: '0').save }
+
+      it { expect(CachedNode.can_add_root?).to be true }
+    end
   end
 end

@@ -17,15 +17,19 @@ class CachedNodesController < ApplicationController
   end
 
   def new
-    @cached_node = CachedNode.new
-    render :new, layout: false
+    if params[:parent_id].present? || CachedNode.can_add_root?
+      @cached_node = CachedNode.new
+      render :new, layout: false
+    else
+      return head(:forbidden)
+    end
   end
 
   def create
     @cached_node = CachedNode.new
-    parent = CachedNode.find(params[:parent_id])
-
     @cached_node.value = params[:value]
+
+    parent = CachedNode.find(params[:parent_id])
     @cached_node.parent = parent
 
     if @cached_node.save

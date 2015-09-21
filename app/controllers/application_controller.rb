@@ -5,15 +5,15 @@ class ApplicationController < ActionController::Base
 
   after_filter :flash_to_headers
 
+  def index
+    @roots = Node.at_depth(0).order(:id)
+    @cached_nodes = TreeForRender.new.build_tree
+  end
+
   def apply
     ChangesApplier.apply
     flash[:notice] = 'All changes were saved to database'
     redirect_to root_path
-  end
-
-  def index
-    @root = Node.not_deleted.find_by(:ancestry => nil)
-    @cached_nodes = TreeForRender.new.build_tree
   end
 
   def reset
