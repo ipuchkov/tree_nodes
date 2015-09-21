@@ -29,11 +29,12 @@ module ChangesApplier
       parent_id = node_parent_id(node)
       deleted_at = node_deleted_at(node)
       db_node = Node.create(value: node.value, parent_id: parent_id, deleted_at: deleted_at)
-      set_node_id(node, db_node)
+      update_cached_node(node, db_node)
     end
 
-    def set_node_id(cached_node, db_node)
-      cached_node.id = db_node.id
+    def update_cached_node(cached_node, db_node)
+      cached_node.id       = db_node.id
+      cached_node.ancestry = db_node.ancestry
       cached_node.save
     end
 
