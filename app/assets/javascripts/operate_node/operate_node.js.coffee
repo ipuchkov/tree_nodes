@@ -10,7 +10,6 @@
     if id
       $.ajax
         url: url
-        type: type if type
         success: (data) ->
           $(document.body).append(data)
           init_apply_changes()

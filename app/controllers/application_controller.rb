@@ -10,6 +10,13 @@ class ApplicationController < ActionController::Base
     @cached_nodes = TreeForRender.new.build_tree
   end
 
+  def reset
+    %x(bundle exec rake db:schema:load db:seed)
+    CachedNode.destroy_all
+    flash[:notice] = 'All data were reseted to initial state'
+    redirect_to root_path
+  end
+
   private
 
   def flash_to_headers
