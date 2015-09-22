@@ -3,8 +3,12 @@
     <li>
       <% node = node_hash[:obj] %>
       <% children = node_hash[:children] %>
-      <span id=<%= node.uuid %> class=<%= node.deleted? ? 'deleted' : '' %>><%= "#{node.value} - #{node.id}" %></span>
-      <%= render partial: 'cached_nodes/list', locals: { cached_nodes: children } if children.any? %>
+      <span id=<%= node.uuid %> class=<%= node.deleted? ? 'deleted' : '' %>>
+        <%= node.value %>
+      </span>
+      <% if children.any? %>
+        <%= render partial: 'cached_nodes/list', locals: { cached_nodes: children } %>
+      <% end %>
     </li>
   <% end %>
 </ul>

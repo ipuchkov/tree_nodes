@@ -11,7 +11,9 @@ module SmartAncestry
         self.ancestry = value
         self.ancestry_depth = value.split(/\//).count.to_s
       else
-        raise WrongParent.new("Can`t set ancestry for #{self} because parent class is not #{self.class} but #{record.class}")
+        raise WrongParent.new(
+               "Can`t set ancestry for #{self}
+                because parent class is not #{self.class} but #{record.class}")
       end
     elsif record.nil?
       self.ancestry_depth = '0'
@@ -27,7 +29,9 @@ module SmartAncestry
   end
 
   def children
-    self.class.all.select {|r| r.parent_id == self.id || r.parent_id == self.obj_primary_key }
+    self.class.all.select do |r|
+      r.parent_id == self.id || r.parent_id == self.obj_primary_key
+    end
   end
 
   def child_ids
@@ -74,7 +78,10 @@ module SmartAncestry
 
   def parent_primary_key(record)
     key = record.attributes[record.class.primary_key]
-    raise WrongParent.new("Can`t set ancestry for #{self} because parent not saved") unless key
+    unless key
+      raise WrongParent.new(
+             "Can`t set ancestry for #{self} because parent not saved")
+    end
 
     key
   end

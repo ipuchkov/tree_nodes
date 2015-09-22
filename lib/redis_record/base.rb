@@ -60,11 +60,15 @@ class RedisRecord::Base
 
   def set_data
     primary_key = attributes[self.class.primary_key]
-    if RedisConnector::Redis.instance.set(self.class.namespace, primary_key, attributes_to_store.to_a.flatten) == 'OK'
+    if write_to_redis(primary_key, attributes_to_store.to_a.flatten) == 'OK'
       self.class.find(primary_key)
     else
       false
     end
+  end
+
+  def write_to_redis(primary_key, attrs)
+    RedisConnector::Redis.instance.set(self.class.namespace, primary_key, attrs)
   end
 
   def attributes_to_store
@@ -87,7 +91,10 @@ class RedisRecord::Base
 
   def set_attributes(data_attributes)
     data_attributes.each do |attribute, value|
-      raise RedisRecord::Errors::WrongAttribute.new("unknown attribute '#{attribute}' for #{self.class.name}") unless self.class.attributes.include?(attribute.to_sym)
+      unless self.class.attributes.include?(attribute.to_sym)
+        raise RedisRecord::Errors::WrongAttribute.new(
+          "unknown attribute '#{attribute}' for #{self.class.name}")
+      end
       @attributes[attribute.to_sym] = value
     end
   end
@@ -103,7 +110,8 @@ class RedisRecord::Base
 
     def find_by(field, value)
       unless self.attributes.include?(field)
-        raise RedisRecord::Errors::WrongAttribute.new("Attribute #{field} does not exist")
+        raise RedisRecord::Errors::WrongAttribute.new(
+          "Attribute #{field} does not exist")
       end
       self.all.select { |r| r.send(field) == value.to_s }.first
     end

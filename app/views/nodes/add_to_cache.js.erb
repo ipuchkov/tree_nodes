@@ -1,1 +1,3 @@
-$('.cached_nodes .tree_view').html("<%= j(render partial: 'cached_nodes/list', locals: { cached_nodes: @cached_nodes }) %>")
+$('.cached_nodes .tree_view').html(
+  "<%= j(render partial: 'cached_nodes/list', locals: { cached_nodes: @cached_nodes }) %>"
+)

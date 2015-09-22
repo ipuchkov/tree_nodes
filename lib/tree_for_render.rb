@@ -32,7 +32,7 @@ class TreeForRender
   def prepared_tree_hash
     @tree_hash ||= sorted_nodes.inject({}) do |h, n|
       key = n.id.present? ? n.id : n.uuid
-      h.merge!(key => {:obj => n, :children => {}})
+      h.merge!(key => {obj: n, children: {}})
     end
   end
 

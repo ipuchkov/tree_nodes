@@ -28,7 +28,9 @@ module ChangesApplier
     def create_node(node)
       parent_id = node_parent_id(node)
       deleted_at = node_deleted_at(node)
-      db_node = Node.create(value: node.value, parent_id: parent_id, deleted_at: deleted_at)
+      db_node = Node.create(value: node.value,
+                            parent_id: parent_id,
+                            deleted_at: deleted_at)
       update_cached_node(node, db_node)
     end
 
