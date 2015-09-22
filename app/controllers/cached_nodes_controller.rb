@@ -1,6 +1,8 @@
 class CachedNodesController < ApplicationController
   respond_to :js
 
+  before_filter :check_value, only: [:create, :update]
+
   def edit
     @cached_node = CachedNode.find(params[:id])
     render :edit, layout: false
@@ -9,11 +11,8 @@ class CachedNodesController < ApplicationController
   def update
     @cached_node = CachedNode.find(params[:id])
     @cached_node.value = params[:value]
-    if @cached_node.save
-      render_list
-    else
-      make_flash('Node not saved')
-    end
+    make_flash('Node not saved') unless @cached_node.save
+    render_list
   end
 
   def new
@@ -32,11 +31,8 @@ class CachedNodesController < ApplicationController
     parent = CachedNode.find(params[:parent_id])
     @cached_node.parent = parent
 
-    if @cached_node.save
-      render_list
-    else
-      make_flash('Node not created')
-    end
+    make_flash('Node not created') unless @cached_node.save
+    render_list
   end
 
   def destroy
@@ -44,17 +40,24 @@ class CachedNodesController < ApplicationController
     @cached_node.deleted_at = Time.zone.now.to_s
     if @cached_node.save
       @cached_node.mark_descendants_deleted
-      render_list
     else
       make_flash('Can`t delete node')
     end
+    render_list
   end
 
   private
 
+  def check_value
+    unless params[:value].present?
+      make_flash('Value cant be blank')
+      flash_to_headers
+      render_list
+    end
+  end
+
   def make_flash(message)
     flash[:notice] = message
-    render nothing: true
   end
 
   def render_list
