@@ -7,9 +7,8 @@ module SmartAncestry
   def parent=(record)
     if record.present?
       if record.is_a?(self.class)
-        value = ancestry_value(record)
-        self.ancestry = value
-        self.ancestry_depth = value.split(/\//).count.to_s
+        self.ancestry = ancestry_key_for(record)
+        self.ancestry_depth = (record.ancestry_depth.to_i + 1).to_s
       else
         raise WrongParent.new(
                "Can`t set ancestry for #{self}
@@ -21,7 +20,7 @@ module SmartAncestry
   end
 
   def parent_id
-    ancestry_ids.last
+    ancestry
   end
 
   def parent
@@ -30,7 +29,7 @@ module SmartAncestry
 
   def children
     self.class.all.select do |r|
-      r.parent_id == self.id || r.parent_id == self.obj_primary_key
+      r.parent_id.present? && (r.parent_id == self.id || r.parent_id == self.obj_primary_key)
     end
   end
 
@@ -38,31 +37,7 @@ module SmartAncestry
     children.map(&:uuid)
   end
 
-  def descendants
-    self.class.all.select do |r|
-      r.ancestry_ids.include?(self.uuid) || r.ancestry_ids.include?(self.id)
-    end
-  end
-
-  def root_id
-    ancestry_ids.first
-  end
-
-  def ancestry_ids
-    ancestry.split(/\//)
-  end
-
   private
-
-  def ancestry_value(record)
-    ancestry_key = ancestry_key_for(record)
-
-    if record.ancestry.present?
-      record.ancestry + "/#{ancestry_key}"
-    else
-      ancestry_key.to_s
-    end
-  end
 
   def ancestry_key_for(record)
     if has_id?(record)

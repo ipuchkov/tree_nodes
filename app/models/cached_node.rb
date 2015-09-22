@@ -11,9 +11,10 @@ class CachedNode < RedisRecord::Base
   end
 
   def mark_descendants_deleted
-    self.descendants.each do |r|
+    self.children.each do |r|
       r.deleted_at = Time.zone.now
       r.save
+      r.mark_descendants_deleted if r.children.any?
     end
   end
 

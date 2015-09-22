@@ -95,7 +95,7 @@ class RedisRecord::Base
         raise RedisRecord::Errors::WrongAttribute.new(
           "unknown attribute '#{attribute}' for #{self.class.name}")
       end
-      @attributes[attribute.to_sym] = value
+      self.send("#{attribute.to_s}=", value)
     end
   end
 

@@ -21,10 +21,6 @@ class TreeForRender
     prepared_tree_hash.has_key?(id)
   end
 
-  def ancestries_for(node)
-    node.ancestry.split(/\//).reverse
-  end
-
   def prepared_tree_hash
     @tree_hash ||= sorted_nodes.inject({}) do |h, n|
       key = n.id.present? ? n.id : n.uuid

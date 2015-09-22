@@ -7,7 +7,7 @@ class Node < ActiveRecord::Base
   scope :not_deleted, -> { where(deleted_at: nil) }
 
   def for_cache
-    self.as_json(only: [:id, :value, :ancestry, :ancestry_depth, :deleted_at])
+    self.as_json(only: [:id, :value, :ancestry_depth, :deleted_at]).merge(:ancestry => parent_id)
   end
 
   def deleted?

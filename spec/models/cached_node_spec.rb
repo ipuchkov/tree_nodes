@@ -56,6 +56,7 @@ RSpec.describe CachedNode, type: :model do
     end
 
     context 'parent without id' do
+      let!(:do)     { CachedNode.destroy_all }
       let!(:parent) { CachedNode.new(:value => 'parent').save }
       let!(:child)  { CachedNode.new(:value => 'child', :parent => parent).save }
 
@@ -69,14 +70,6 @@ RSpec.describe CachedNode, type: :model do
 
       it { expect { child.parent = 1 }.to raise_exception(SmartAncestry::WrongParent) }
       it { expect { child.parent = parent }.to raise_exception(SmartAncestry::WrongParent) }
-    end
-
-    context 'root' do
-      let(:root)         { CachedNode.new(:value => 'parent', :id => 1).save }
-      let(:child)        { CachedNode.new(:value => 'child', :id => 2, :parent => root).save }
-      let(:grand_child)  { CachedNode.new(:value => 'grand_child', :id => 3, :parent => child).save }
-
-      it { expect(grand_child.root_id).to eq(root.id) }
     end
 
     context 'can add root' do

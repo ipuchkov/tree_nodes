@@ -36,7 +36,7 @@ module ChangesApplier
 
     def update_cached_node(cached_node, db_node)
       cached_node.id       = db_node.id
-      cached_node.ancestry = db_node.ancestry
+      cached_node.ancestry = db_node.parent_id
       cached_node.save
     end
 
