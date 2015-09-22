@@ -59,13 +59,16 @@ class RedisRecord::Base
   end
 
   def set_data
-    all_attributes = attributes
-    primary_key = all_attributes.delete(self.class.primary_key)
-    if RedisConnector::Redis.instance.set(self.class.namespace, primary_key, all_attributes.to_a.flatten) == 'OK'
+    primary_key = attributes[self.class.primary_key]
+    if RedisConnector::Redis.instance.set(self.class.namespace, primary_key, attributes_to_store.to_a.flatten) == 'OK'
       self.class.find(primary_key)
     else
       false
     end
+  end
+
+  def attributes_to_store
+    attributes.reject { |k,v| k == self.class.primary_key }
   end
 
   def check_primary_key
