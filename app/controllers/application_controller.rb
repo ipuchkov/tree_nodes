@@ -1,3 +1,5 @@
+require 'rake'
+TreeNodes::Application.load_tasks
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -17,11 +19,10 @@ class ApplicationController < ActionController::Base
   end
 
   def reset
-    if Rails.env.production?
-      %x(bundle exec rake db:schema:load db:seed RAILS_ENV=production)
-    else
-      %x(bundle exec rake db:schema:load db:seed)
-    end
+    Rake::Task['db:schema:load'].reenable
+    Rake::Task['db:schema:load'].invoke
+    Rake::Task['db:seed'].reenable
+    Rake::Task['db:seed'].invoke
     CachedNode.destroy_all
     flash[:notice] = 'All data were reseted to initial state'
     redirect_to root_path
