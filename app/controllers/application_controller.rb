@@ -17,7 +17,11 @@ class ApplicationController < ActionController::Base
   end
 
   def reset
-    %x(bundle exec rake db:schema:load db:seed)
+    if Rails.env.production?
+      %x(bundle exec rake db:schema:load db:seed RAILS_ENV=production)
+    else
+      %x(bundle exec rake db:schema:load db:seed)
+    end
     CachedNode.destroy_all
     flash[:notice] = 'All data were reseted to initial state'
     redirect_to root_path
