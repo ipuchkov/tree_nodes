@@ -2,13 +2,9 @@ class TreeForRender
   def build_tree
     reverse_sorted_nodes.each do |node|
       id = id_for(node)
-      ancestries = ancestries_for(node)
-
-      ancestries.each do |anc|
-        if parent_in_tree?(anc)
-          prepared_tree_hash[anc][:children].merge!(id => prepared_tree_hash.delete(id))
-          break
-        end
+      parent_id = node.parent_id
+      if parent_in_tree?(parent_id)
+        prepared_tree_hash[parent_id][:children].merge!(id => prepared_tree_hash.delete(id))
       end
     end
 
